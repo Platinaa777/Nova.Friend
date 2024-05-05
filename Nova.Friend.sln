@@ -28,6 +28,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Nova.Friend.IntegrationTest
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Nova.Friend.E2E", "tests\Nova.Friend.E2E\Nova.Friend.E2E.csproj", "{6E4063B4-351C-402C-837F-7B7EFB0C13AC}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DomainDrivenDesign.Abstractions", "common\DomainDrivenDesign.Abstractions\DomainDrivenDesign.Abstractions.csproj", "{AB7B9DE7-F858-4C61-825F-FA6915C89593}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -44,6 +46,7 @@ Global
 		{0A836027-F68F-4271-8412-0BD59D193D21} = {7108C94E-1A8E-41B4-886D-3E49192C3AD2}
 		{4CC002D2-9F3D-4B79-BD23-79516D48D99C} = {7108C94E-1A8E-41B4-886D-3E49192C3AD2}
 		{6E4063B4-351C-402C-837F-7B7EFB0C13AC} = {7108C94E-1A8E-41B4-886D-3E49192C3AD2}
+		{AB7B9DE7-F858-4C61-825F-FA6915C89593} = {B2321423-05E9-4C31-AC27-7F5986ADD933}
 	EndGlobalSection
 	GlobalSection(ProjectConfigurationPlatforms) = postSolution
 		{559DC607-A319-4EA0-91FA-C23CDF4D0D17}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
@@ -86,5 +89,9 @@ Global
 		{6E4063B4-351C-402C-837F-7B7EFB0C13AC}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{6E4063B4-351C-402C-837F-7B7EFB0C13AC}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{6E4063B4-351C-402C-837F-7B7EFB0C13AC}.Release|Any CPU.Build.0 = Release|Any CPU
+		{AB7B9DE7-F858-4C61-825F-FA6915C89593}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{AB7B9DE7-F858-4C61-825F-FA6915C89593}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{AB7B9DE7-F858-4C61-825F-FA6915C89593}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{AB7B9DE7-F858-4C61-825F-FA6915C89593}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 EndGlobal
