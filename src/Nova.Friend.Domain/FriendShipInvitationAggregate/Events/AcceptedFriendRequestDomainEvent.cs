@@ -4,5 +4,5 @@ using Nova.Friend.Domain.UserAggregate.ValueObjects;
 
 namespace Nova.Friend.Domain.FriendShipInvitationAggregate.Events;
 
-public record AcceptedInvitationDomainEvent(InvitationId InvitationId, UserId SenderId, UserId ReceiverId)
+public record AcceptedFriendRequestDomainEvent(RequestId RequestId, UserId SenderId, UserId ReceiverId)
     : IDomainEvent; 

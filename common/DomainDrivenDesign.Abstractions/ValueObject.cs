@@ -4,7 +4,7 @@ public abstract class ValueObject
 {
     protected abstract IEnumerable<object> GetEqualityComponents();
 
-    public bool Equals(ValueObject? other) =>
+    protected bool Equals(ValueObject? other) =>
         other is not null && ValuesAreEqual(other);
 
     public override bool Equals(object? obj) =>

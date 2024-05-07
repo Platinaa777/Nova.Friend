@@ -5,9 +5,10 @@ namespace Nova.Friend.Domain.UserAggregate.ValueObjects;
 
 public class LastName : ValueObject
 {
+    private const int MaxLength = 30;
     public string Value { get; }
 
-    public LastName(string lastName)
+    private LastName(string lastName)
     {
         Value = lastName;
     }

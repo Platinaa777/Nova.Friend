@@ -4,7 +4,7 @@ namespace Nova.Friend.Domain.UserAggregate.Repositories;
 
 public interface IUserRepository
 {
-    Task<User?> FindUserById(UserId userId);
-    Task Add(User user);
-    Task Update(User user);
+    Task<User?> FindUserById(UserId userId, CancellationToken cancellationToken = default);
+    Task Add(User user, CancellationToken cancellationToken = default);
+    Task Update(User user, CancellationToken cancellationToken = default);
 }

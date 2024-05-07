@@ -5,9 +5,10 @@ namespace Nova.Friend.Domain.UserAggregate.ValueObjects;
 
 public class FirstName : ValueObject
 {
+    private const int MaxLength = 30;
     public string Value { get; }
 
-    public FirstName(string firstName)
+    private FirstName(string firstName)
     {
         Value = firstName;
     }
@@ -21,7 +22,7 @@ public class FirstName : ValueObject
     {
         if (string.IsNullOrWhiteSpace(firstName))
             return Result.Failure<FirstName>(UserError.EmptyFirstName);
-        if (firstName.Length > 30)
+        if (firstName.Length > MaxLength)
             return Result.Failure<FirstName>(UserError.TooLongFirstName);
 
         return new FirstName(firstName);

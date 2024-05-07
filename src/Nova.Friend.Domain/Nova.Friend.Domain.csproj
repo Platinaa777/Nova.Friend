@@ -7,10 +7,6 @@
     </PropertyGroup>
 
     <ItemGroup>
-      <Folder Include="FriendShipInvitationAggregate\Repositories\" />
-    </ItemGroup>
-
-    <ItemGroup>
       <ProjectReference Include="..\..\common\DomainDrivenDesign.Abstractions\DomainDrivenDesign.Abstractions.csproj" />
     </ItemGroup>
 

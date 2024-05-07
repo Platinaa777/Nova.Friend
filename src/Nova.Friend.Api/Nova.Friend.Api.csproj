@@ -15,4 +15,8 @@
       <Folder Include="Controllers\" />
     </ItemGroup>
 
+    <ItemGroup>
+      <ProjectReference Include="..\Nova.Friend.DependencyInjection\Nova.Friend.DependencyInjection.csproj" />
+    </ItemGroup>
+
 </Project>

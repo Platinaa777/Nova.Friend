@@ -17,7 +17,8 @@ public class UserId : ValueObject, IEquatable<UserId>
         yield return Value;
     }
 
-    public bool Equals(UserId? other) => other is not null && other.Equals(this);
+    public bool Equals(UserId? other) =>
+        base.Equals(other);
 
     public static Result<UserId> Create(string userId)
     {
@@ -28,4 +29,12 @@ public class UserId : ValueObject, IEquatable<UserId>
 
         return new UserId(id);
     }
+
+    public override int GetHashCode()
+    {
+        return Value.GetHashCode();
+    }
+
+    public override bool Equals(object? obj) =>
+        obj is UserId userId && userId.Equals(this);
 }
