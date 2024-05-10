@@ -28,6 +28,19 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Nova.Friend.E2E", "tests\No
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DomainDrivenDesign.Abstractions", "common\DomainDrivenDesign.Abstractions\DomainDrivenDesign.Abstractions.csproj", "{AB7B9DE7-F858-4C61-825F-FA6915C89593}"
 EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "deploy", "deploy", "{1D1D9A22-4131-4604-B318-10AB85DB0569}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "docker", "docker", "{9339D3D4-35DB-4BAB-A86F-D97CF90B458A}"
+	ProjectSection(SolutionItems) = preProject
+		deploy\docker\docker-compose.yaml = deploy\docker\docker-compose.yaml
+	EndProjectSection
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Nova.Friend.Application.Tests", "tests\Nova.Friend.Application.Tests\Nova.Friend.Application.Tests.csproj", "{2453D27D-5346-4FD2-9C43-9FB558A8528A}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Nova.Friend.Migrations", "src\Nova.Friend.Migrations\Nova.Friend.Migrations.csproj", "{58B4ADBB-5B8F-4827-953B-3F7AC89F5604}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SwaggerConfiguration", "infrastructure\SwaggerConfiguration\SwaggerConfiguration.csproj", "{083DAD64-1B69-4F2C-9391-CB573E6382C1}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -44,6 +57,10 @@ Global
 		{4CC002D2-9F3D-4B79-BD23-79516D48D99C} = {7108C94E-1A8E-41B4-886D-3E49192C3AD2}
 		{6E4063B4-351C-402C-837F-7B7EFB0C13AC} = {7108C94E-1A8E-41B4-886D-3E49192C3AD2}
 		{AB7B9DE7-F858-4C61-825F-FA6915C89593} = {B2321423-05E9-4C31-AC27-7F5986ADD933}
+		{9339D3D4-35DB-4BAB-A86F-D97CF90B458A} = {1D1D9A22-4131-4604-B318-10AB85DB0569}
+		{2453D27D-5346-4FD2-9C43-9FB558A8528A} = {7108C94E-1A8E-41B4-886D-3E49192C3AD2}
+		{58B4ADBB-5B8F-4827-953B-3F7AC89F5604} = {453F2CAE-99B9-42CE-98BC-1656EC0561AB}
+		{083DAD64-1B69-4F2C-9391-CB573E6382C1} = {005EEB00-DF6B-46B7-8CD2-5722FA330EDF}
 	EndGlobalSection
 	GlobalSection(ProjectConfigurationPlatforms) = postSolution
 		{559DC607-A319-4EA0-91FA-C23CDF4D0D17}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
@@ -86,5 +103,17 @@ Global
 		{AB7B9DE7-F858-4C61-825F-FA6915C89593}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{AB7B9DE7-F858-4C61-825F-FA6915C89593}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{AB7B9DE7-F858-4C61-825F-FA6915C89593}.Release|Any CPU.Build.0 = Release|Any CPU
+		{2453D27D-5346-4FD2-9C43-9FB558A8528A}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{2453D27D-5346-4FD2-9C43-9FB558A8528A}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{2453D27D-5346-4FD2-9C43-9FB558A8528A}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{2453D27D-5346-4FD2-9C43-9FB558A8528A}.Release|Any CPU.Build.0 = Release|Any CPU
+		{58B4ADBB-5B8F-4827-953B-3F7AC89F5604}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{58B4ADBB-5B8F-4827-953B-3F7AC89F5604}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{58B4ADBB-5B8F-4827-953B-3F7AC89F5604}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{58B4ADBB-5B8F-4827-953B-3F7AC89F5604}.Release|Any CPU.Build.0 = Release|Any CPU
+		{083DAD64-1B69-4F2C-9391-CB573E6382C1}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{083DAD64-1B69-4F2C-9391-CB573E6382C1}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{083DAD64-1B69-4F2C-9391-CB573E6382C1}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{083DAD64-1B69-4F2C-9391-CB573E6382C1}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 EndGlobal

@@ -1,8 +1,12 @@
 using DomainDrivenDesign.Abstractions;
 using MediatR;
+using Nova.Friend.Application.Constants;
+using Nova.Friend.Application.Events;
+using Nova.Friend.Application.TransactionScope;
 using Nova.Friend.Domain.Errors;
-using Nova.Friend.Domain.FriendShipInvitationAggregate.Repositories;
+using Nova.Friend.Domain.FriendRequestAggregate.Repositories;
 using Nova.Friend.Domain.UserAggregate.ValueObjects;
+using IUnitOfWork = Nova.Friend.Application.TransactionScope.IUnitOfWork;
 
 namespace Nova.Friend.Application.Commands.AcceptFriendRequest;
 
@@ -11,17 +15,25 @@ public class AcceptFriendRequestCommandHandler
 {
      private readonly IFriendRequestRepository _friendRequestRepository;
      private readonly IFriendSearchRepository _friendSearchRepository;
+     private readonly IUnitOfWork _unitOfWork;
+     private readonly ITransactionScope _scope;
 
      public AcceptFriendRequestCommandHandler(
           IFriendRequestRepository friendRequestRepository,
-          IFriendSearchRepository friendSearchRepository)
+          IFriendSearchRepository friendSearchRepository,
+          IUnitOfWork unitOfWork,
+          ITransactionScope scope)
      {
           _friendRequestRepository = friendRequestRepository;
           _friendSearchRepository = friendSearchRepository;
+          _unitOfWork = unitOfWork;
+          _scope = scope.AddReadScope(DatabaseOptions.RequestCollection);
      }
      
      public async Task<Result> Handle(AcceptFriendRequestCommand request, CancellationToken cancellationToken)
      {
+          await _unitOfWork.StartTransaction(_scope, cancellationToken);
+          
           var (senderIdResult, receiverIdResult) = (UserId.Create(request.SenderId), UserId.Create(request.ReceiverId));
 
           // TODO: make intercept between errors
@@ -31,7 +43,8 @@ public class AcceptFriendRequestCommandHandler
           var existingFriendRequest =
                await _friendSearchRepository.FindBySenderAndReceiver(
                     senderIdResult.Value,
-                    receiverIdResult.Value);
+                    receiverIdResult.Value,
+                    cancellationToken);
           
           if (existingFriendRequest is null)
                return Result.Failure(FriendRequestError.NotFound);
@@ -39,6 +52,8 @@ public class AcceptFriendRequestCommandHandler
           existingFriendRequest.Accept();
 
           await _friendRequestRepository.Update(existingFriendRequest, cancellationToken);
+
+          await _unitOfWork.SaveChangesAsync(cancellationToken);
 
           return Result.Success();
      }

@@ -1,4 +1,4 @@
-namespace Nova.Friend.Domain.Exceptions.FriendShipInvitation;
+namespace Nova.Friend.Domain.Exceptions.FriendRequest;
 
 public class AcceptedInvitationException : DomainException
 {

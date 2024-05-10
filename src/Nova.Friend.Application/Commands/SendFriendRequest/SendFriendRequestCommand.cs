@@ -1,7 +1,7 @@
 using DomainDrivenDesign.Abstractions;
 using MediatR;
-using Nova.Friend.Domain.FriendShipInvitationAggregate;
-using Nova.Friend.Domain.FriendShipInvitationAggregate.Enumerations;
+using Nova.Friend.Domain.FriendRequestAggregate;
+using Nova.Friend.Domain.FriendRequestAggregate.Enumerations;
 
 namespace Nova.Friend.Application.Commands.SendFriendRequest;
 

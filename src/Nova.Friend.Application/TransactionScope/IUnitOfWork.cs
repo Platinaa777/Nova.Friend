@@ -1,6 +1,7 @@
 namespace Nova.Friend.Application.TransactionScope;
 
-public class IUnitOfWork
+public interface IUnitOfWork
 {
-    
+    ValueTask StartTransaction(ITransactionScope scope, CancellationToken token = default);
+    Task SaveChangesAsync(CancellationToken token = default);
 }

@@ -1,3 +1,8 @@
+using Nova.Friend.Domain.Exceptions.FriendRequest;
+using Nova.Friend.Domain.FriendRequestAggregate;
+using Nova.Friend.Domain.FriendRequestAggregate.Enumerations;
+using Nova.Friend.Domain.FriendRequestAggregate.Events;
+
 namespace Nova.Friend.Domain.Tests;
 
 public class FriendRequestTests

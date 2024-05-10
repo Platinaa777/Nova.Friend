@@ -15,4 +15,10 @@
       <PackageReference Include="Microsoft.Extensions.Logging.Abstractions" Version="7.0.1" />
     </ItemGroup>
 
+    <ItemGroup>
+      <Reference Include="Core.Arango">
+        <HintPath>..\..\..\..\.nuget\packages\core.arango\3.11.2\lib\net7.0\Core.Arango.dll</HintPath>
+      </Reference>
+    </ItemGroup>
+
 </Project>

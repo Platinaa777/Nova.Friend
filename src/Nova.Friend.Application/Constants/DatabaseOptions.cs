@@ -1,4 +1,4 @@
-namespace Nova.Friend.Infrastructure.Constants;
+namespace Nova.Friend.Application.Constants;
 
 public static class DatabaseOptions
 {

@@ -1,6 +1,6 @@
-using Nova.Friend.Domain.FriendShipInvitationAggregate.ValueObjects;
+using Nova.Friend.Domain.FriendRequestAggregate.ValueObjects;
 
-namespace Nova.Friend.Domain.FriendShipInvitationAggregate.Repositories;
+namespace Nova.Friend.Domain.FriendRequestAggregate.Repositories;
 
 public interface IFriendRequestRepository
 {

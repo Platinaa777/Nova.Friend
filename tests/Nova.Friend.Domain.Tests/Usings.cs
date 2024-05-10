@@ -3,7 +3,3 @@ global using FluentAssertions;
 global using Nova.Friend.Domain.Exceptions.User;
 global using Nova.Friend.Domain.UserAggregate;
 global using Nova.Friend.Domain.UserAggregate.ValueObjects;
-global using Nova.Friend.Domain.Exceptions.FriendShipInvitation;
-global using Nova.Friend.Domain.FriendShipInvitationAggregate.Enumerations;
-global using Nova.Friend.Domain.FriendShipInvitationAggregate;
-global using Nova.Friend.Domain.FriendShipInvitationAggregate.Events;

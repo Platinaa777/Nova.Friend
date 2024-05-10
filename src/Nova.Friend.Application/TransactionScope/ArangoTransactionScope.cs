@@ -1,17 +1,21 @@
-using Nova.Friend.Application.TransactionScope;
+using Core.Arango;
 
-namespace Nova.Friend.Infrastructure.Persistence;
+namespace Nova.Friend.Application.TransactionScope;
 
 public class ArangoTransactionScope : ITransactionScope
 {
-    public string Name { get; set; }
-    public List<string> Read { get; set; }
-    public List<string> Write { get; set; }
-
-    public ArangoTransactionScope(string name, List<string> read, List<string> write)
+    public ArangoHandle TransactionId { get; set; } = null!;
+    public List<string> Read { get; set; } = new();
+    public List<string> Write { get; set; } = new();
+    public ITransactionScope AddReadScope(string collectionName)
     {
-        Name = name;
-        Read = read;
-        Write = write;
+        Read.Add(collectionName);
+        return this;
+    }
+
+    public ITransactionScope AddWriteScope(string collectionName)
+    {
+        Write.Add(collectionName);
+        return this;
     }
 }

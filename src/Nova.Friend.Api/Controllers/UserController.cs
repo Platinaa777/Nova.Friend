@@ -1,12 +1,14 @@
 using AutoMapper;
 using MediatR;
 using Microsoft.AspNetCore.Mvc;
+using Nova.Friend.Application.Commands.CreateUser;
 using Nova.Friend.Application.Queries.GetFriends;
+using Nova.Friend.HttpModels.Requests;
 
 namespace Nova.Friend.Api.Controllers;
 
 [ApiController]
-[Route("friend")]
+[Route("user")]
 public class UserController : ControllerBase
 {
     private readonly IMediator _mediator;
@@ -19,11 +21,11 @@ public class UserController : ControllerBase
         _mediator = mediator;
         _mapper = mapper;
     }
-
-    [HttpGet("{id:guid}")]
-    public async Task<ActionResult> GetUser([FromRoute] Guid id)
+    
+    [HttpPost]
+    public async Task<ActionResult> AddUser([FromBody] AddUserRequest req)
     {
-        var result = await _mediator.Send(_mapper.Map<GetFriendsQuery>(id));
+        var result = await _mediator.Send(_mapper.Map<CreateUserCommand>(req));
 
         if (result.IsFailure)
             return BadRequest(result);

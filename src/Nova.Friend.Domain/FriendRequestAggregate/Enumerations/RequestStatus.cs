@@ -1,6 +1,6 @@
 using DomainDrivenDesign.Abstractions;
 
-namespace Nova.Friend.Domain.FriendShipInvitationAggregate.Enumerations;
+namespace Nova.Friend.Domain.FriendRequestAggregate.Enumerations;
 
 public class RequestStatus : Enumeration, IEquatable<RequestStatus>
 {

@@ -1,10 +1,10 @@
 namespace DomainDrivenDesign.Abstractions;
 
-public abstract class ValueObject
+public abstract class ValueObject : IEquatable<ValueObject>
 {
     protected abstract IEnumerable<object> GetEqualityComponents();
 
-    protected bool Equals(ValueObject? other) =>
+    public bool Equals(ValueObject? other) =>
         other is not null && ValuesAreEqual(other);
 
     public override bool Equals(object? obj) =>

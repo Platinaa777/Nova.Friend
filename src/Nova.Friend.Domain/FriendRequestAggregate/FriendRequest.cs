@@ -1,12 +1,12 @@
 using DomainDrivenDesign.Abstractions;
 using Nova.Friend.Domain.Errors;
-using Nova.Friend.Domain.Exceptions.FriendShipInvitation;
-using Nova.Friend.Domain.FriendShipInvitationAggregate.Enumerations;
-using Nova.Friend.Domain.FriendShipInvitationAggregate.Events;
-using Nova.Friend.Domain.FriendShipInvitationAggregate.ValueObjects;
+using Nova.Friend.Domain.Exceptions.FriendRequest;
+using Nova.Friend.Domain.FriendRequestAggregate.Enumerations;
+using Nova.Friend.Domain.FriendRequestAggregate.Events;
+using Nova.Friend.Domain.FriendRequestAggregate.ValueObjects;
 using Nova.Friend.Domain.UserAggregate.ValueObjects;
 
-namespace Nova.Friend.Domain.FriendShipInvitationAggregate;
+namespace Nova.Friend.Domain.FriendRequestAggregate;
 
 public class FriendRequest : AggregateRoot<RequestId>
 {

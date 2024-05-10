@@ -1,7 +1,7 @@
 using DomainDrivenDesign.Abstractions;
 using Nova.Friend.Domain.Errors;
 
-namespace Nova.Friend.Domain.FriendShipInvitationAggregate.ValueObjects;
+namespace Nova.Friend.Domain.FriendRequestAggregate.ValueObjects;
 
 public class RequestId : ValueObject, IEquatable<RequestId>
 {

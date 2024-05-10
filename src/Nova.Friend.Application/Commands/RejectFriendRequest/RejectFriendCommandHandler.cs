@@ -1,9 +1,12 @@
 using DomainDrivenDesign.Abstractions;
 using FluentValidation;
 using Nova.Friend.Application.Commands.AcceptFriendRequest;
+using Nova.Friend.Application.Constants;
+using Nova.Friend.Application.TransactionScope;
 using Nova.Friend.Domain.Errors;
-using Nova.Friend.Domain.FriendShipInvitationAggregate.Repositories;
+using Nova.Friend.Domain.FriendRequestAggregate.Repositories;
 using Nova.Friend.Domain.UserAggregate.ValueObjects;
+using IUnitOfWork = Nova.Friend.Application.TransactionScope.IUnitOfWork;
 
 namespace Nova.Friend.Application.Commands.RejectFriendRequest;
 
@@ -12,13 +15,19 @@ public class RejectFriendCommandHandler
 {
     private readonly IFriendRequestRepository _friendRequestRepository;
     private readonly IFriendSearchRepository _friendSearchRepository;
+    private readonly IUnitOfWork _unitOfWork;
+    private readonly ITransactionScope _scope;
 
     public RejectFriendCommandHandler(
         IFriendRequestRepository friendRequestRepository,
-        IFriendSearchRepository friendSearchRepository)
+        IFriendSearchRepository friendSearchRepository,
+        IUnitOfWork unitOfWork,
+        ITransactionScope scope)
     {
         _friendRequestRepository = friendRequestRepository;
         _friendSearchRepository = friendSearchRepository;
+        _unitOfWork = unitOfWork;
+        _scope = scope.AddReadScope(DatabaseOptions.RequestCollection).AddWriteScope(DatabaseOptions.RequestCollection);
     }
      
     public async Task<Result> Handle(RejectFriendCommand request, CancellationToken cancellationToken)
@@ -29,10 +38,13 @@ public class RejectFriendCommandHandler
         if (senderIdResult.IsFailure || receiverIdResult.IsFailure)
             return Result.Failure(senderIdResult.Error);
 
+        await _unitOfWork.StartTransaction(_scope, cancellationToken);
+        
         var existingFriendRequest =
             await _friendSearchRepository.FindBySenderAndReceiver(
                 senderIdResult.Value,
-                receiverIdResult.Value);
+                receiverIdResult.Value, 
+                cancellationToken);
           
         if (existingFriendRequest is null)
             return Result.Failure(FriendRequestError.NotFound);
@@ -40,6 +52,8 @@ public class RejectFriendCommandHandler
         existingFriendRequest.Reject();
 
         await _friendRequestRepository.Update(existingFriendRequest, cancellationToken);
+
+        await _unitOfWork.SaveChangesAsync(cancellationToken);
 
         return Result.Success();
     }
