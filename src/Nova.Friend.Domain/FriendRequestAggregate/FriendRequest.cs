@@ -8,12 +8,12 @@ using Nova.Friend.Domain.UserAggregate.ValueObjects;
 
 namespace Nova.Friend.Domain.FriendRequestAggregate;
 
-public class FriendRequest : AggregateRoot<RequestId>
+public class FriendRequest : AggregateRoot<Id>
 {
     private FriendRequest(
-        RequestId id,
-        UserId senderId,
-        UserId receiverId,
+        Id id,
+        Id senderId,
+        Id receiverId,
         RequestStatus status)
     {
         SenderId = senderId;
@@ -22,8 +22,8 @@ public class FriendRequest : AggregateRoot<RequestId>
         Id = id;
     }
     
-    public UserId SenderId { get; }
-    public UserId ReceiverId { get; }
+    public Id SenderId { get; }
+    public Id ReceiverId { get; }
     public RequestStatus Status { get; private set; }
 
     public void Accept()
@@ -32,7 +32,7 @@ public class FriendRequest : AggregateRoot<RequestId>
             throw new AcceptedInvitationException(Id.Value);
 
         Status = RequestStatus.Accepted;
-        RaiseDomainEvent(new AcceptedFriendRequestDomainEvent(Id, SenderId, ReceiverId));
+        RaiseDomainEvent(new AcceptedFriendRequestDomainEvent(Id.Value, SenderId.Value, ReceiverId.Value));
     }
 
     public void Reject()
@@ -57,17 +57,17 @@ public class FriendRequest : AggregateRoot<RequestId>
         string receiverId,
         string? status)
     {
-        var friendRequestIdResult = RequestId.Create(friendRequestId);
+        var friendRequestIdResult = Id.Create(friendRequestId);
         if (friendRequestIdResult.IsFailure)
-            return Result.Failure<FriendRequest>(friendRequestIdResult.Error);
+            return Result.Failure<FriendRequest>(FriendRequestError.InvalidFriendRequestId);
 
-        var senderIdResult = UserId.Create(senderId);
+        var senderIdResult = Id.Create(senderId);
         if (senderIdResult.IsFailure)
-            return Result.Failure<FriendRequest>(senderIdResult.Error);
+            return Result.Failure<FriendRequest>(RelationShipError.InvalidSenderId);
 
-        var receiverIdResult = UserId.Create(receiverId);
+        var receiverIdResult = Id.Create(receiverId);
         if (receiverIdResult.IsFailure)
-            return Result.Failure<FriendRequest>(receiverIdResult.Error);
+            return Result.Failure<FriendRequest>(RelationShipError.InvalidReceiverId);
 
         if (status is null)
             return Result.Failure<FriendRequest>(FriendRequestError.EmptyStatusType);

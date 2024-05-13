@@ -3,13 +3,10 @@ using Nova.Friend.Domain.Errors;
 
 namespace Nova.Friend.Domain.FriendRequestAggregate.ValueObjects;
 
-public class RequestId : ValueObject, IEquatable<RequestId>
+public class RequestId : Id, IEquatable<RequestId>
 {
-    public string Value { get; }
-
-    private RequestId(Guid invitationId)
+    private RequestId(Guid invitationId) : base(invitationId)
     {
-        Value = invitationId.ToString();
     }
     
     protected override IEnumerable<object> GetEqualityComponents()
@@ -19,7 +16,7 @@ public class RequestId : ValueObject, IEquatable<RequestId>
 
     public bool Equals(RequestId? other) => base.Equals(other);
 
-    public static Result<RequestId> Create(string friendRequestId)
+    public new static Result<RequestId> Create(string friendRequestId)
     {
         if (!Guid.TryParse(friendRequestId, out var id))
         {

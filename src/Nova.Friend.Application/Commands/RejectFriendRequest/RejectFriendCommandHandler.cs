@@ -1,12 +1,10 @@
 using DomainDrivenDesign.Abstractions;
 using FluentValidation;
-using Nova.Friend.Application.Commands.AcceptFriendRequest;
 using Nova.Friend.Application.Constants;
 using Nova.Friend.Application.TransactionScope;
 using Nova.Friend.Domain.Errors;
 using Nova.Friend.Domain.FriendRequestAggregate.Repositories;
 using Nova.Friend.Domain.UserAggregate.ValueObjects;
-using IUnitOfWork = Nova.Friend.Application.TransactionScope.IUnitOfWork;
 
 namespace Nova.Friend.Application.Commands.RejectFriendRequest;
 
@@ -16,7 +14,6 @@ public class RejectFriendCommandHandler
     private readonly IFriendRequestRepository _friendRequestRepository;
     private readonly IFriendSearchRepository _friendSearchRepository;
     private readonly IUnitOfWork _unitOfWork;
-    private readonly ITransactionScope _scope;
 
     public RejectFriendCommandHandler(
         IFriendRequestRepository friendRequestRepository,
@@ -27,7 +24,7 @@ public class RejectFriendCommandHandler
         _friendRequestRepository = friendRequestRepository;
         _friendSearchRepository = friendSearchRepository;
         _unitOfWork = unitOfWork;
-        _scope = scope.AddReadScope(DatabaseOptions.RequestCollection).AddWriteScope(DatabaseOptions.RequestCollection);
+        scope.AddReadScope(DatabaseOptions.RequestCollection).AddWriteScope(DatabaseOptions.RequestCollection);
     }
      
     public async Task<Result> Handle(RejectFriendCommand request, CancellationToken cancellationToken)
@@ -38,7 +35,7 @@ public class RejectFriendCommandHandler
         if (senderIdResult.IsFailure || receiverIdResult.IsFailure)
             return Result.Failure(senderIdResult.Error);
 
-        await _unitOfWork.StartTransaction(_scope, cancellationToken);
+        await _unitOfWork.StartTransaction(cancellationToken);
         
         var existingFriendRequest =
             await _friendSearchRepository.FindBySenderAndReceiver(

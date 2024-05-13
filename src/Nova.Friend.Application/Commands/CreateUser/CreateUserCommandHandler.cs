@@ -4,7 +4,6 @@ using Nova.Friend.Application.Constants;
 using Nova.Friend.Application.TransactionScope;
 using Nova.Friend.Domain.Errors;
 using Nova.Friend.Domain.UserAggregate.Repositories;
-using IUnitOfWork = Nova.Friend.Application.TransactionScope.IUnitOfWork;
 
 namespace Nova.Friend.Application.Commands.CreateUser;
 
@@ -13,7 +12,6 @@ public class CreateUserCommandHandler
 {
     private readonly IUserRepository _userRepository;
     private readonly IUnitOfWork _unitOfWork;
-    private readonly ITransactionScope _scope;
 
     public CreateUserCommandHandler(
         IUserRepository userRepository,
@@ -22,12 +20,12 @@ public class CreateUserCommandHandler
     {
         _userRepository = userRepository;
         _unitOfWork = unitOfWork;
-        _scope = scope.AddReadScope(DatabaseOptions.UserCollection).AddWriteScope(DatabaseOptions.UserCollection);
+        scope.AddReadScope(DatabaseOptions.UserCollection).AddWriteScope(DatabaseOptions.UserCollection);
     }
     
     public async Task<Result> Handle(CreateUserCommand request, CancellationToken cancellationToken)
     {
-        await _unitOfWork.StartTransaction(_scope, cancellationToken);
+        await _unitOfWork.StartTransaction(cancellationToken);
         
         var userResult = request.ToCreateUserResult();
         if (userResult.IsFailure)

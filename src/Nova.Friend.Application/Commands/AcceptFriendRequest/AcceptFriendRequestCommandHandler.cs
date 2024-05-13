@@ -1,12 +1,10 @@
 using DomainDrivenDesign.Abstractions;
 using MediatR;
 using Nova.Friend.Application.Constants;
-using Nova.Friend.Application.Events;
 using Nova.Friend.Application.TransactionScope;
 using Nova.Friend.Domain.Errors;
 using Nova.Friend.Domain.FriendRequestAggregate.Repositories;
 using Nova.Friend.Domain.UserAggregate.ValueObjects;
-using IUnitOfWork = Nova.Friend.Application.TransactionScope.IUnitOfWork;
 
 namespace Nova.Friend.Application.Commands.AcceptFriendRequest;
 
@@ -27,12 +25,15 @@ public class AcceptFriendRequestCommandHandler
           _friendRequestRepository = friendRequestRepository;
           _friendSearchRepository = friendSearchRepository;
           _unitOfWork = unitOfWork;
-          _scope = scope.AddReadScope(DatabaseOptions.RequestCollection);
+          _scope = scope
+               .AddReadScope(DatabaseOptions.RequestCollection)
+               .AddWriteScope(DatabaseOptions.OutboxMessage)
+               .AddWriteScope(DatabaseOptions.RequestCollection);
      }
      
      public async Task<Result> Handle(AcceptFriendRequestCommand request, CancellationToken cancellationToken)
      {
-          await _unitOfWork.StartTransaction(_scope, cancellationToken);
+          await _unitOfWork.StartTransaction(cancellationToken);
           
           var (senderIdResult, receiverIdResult) = (UserId.Create(request.SenderId), UserId.Create(request.ReceiverId));
 

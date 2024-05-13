@@ -10,4 +10,8 @@
       <ProjectReference Include="..\..\common\DomainDrivenDesign.Abstractions\DomainDrivenDesign.Abstractions.csproj" />
     </ItemGroup>
 
+    <ItemGroup>
+      <Folder Include="UserAggregate\Events\" />
+    </ItemGroup>
+
 </Project>

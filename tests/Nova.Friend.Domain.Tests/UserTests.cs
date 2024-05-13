@@ -1,4 +1,4 @@
-using Nova.Friend.Domain.UserAggregate.Events;
+using DomainDrivenDesign.Abstractions;
 
 namespace Nova.Friend.Domain.Tests;
 
@@ -11,7 +11,7 @@ public class UserTests
             "45929873-9CEE-4CAA-BCA9-ECBB09314A89", 
             "firstname", 
             "lastname", 
-            new List<UserId>()).Value;
+            new List<Id>()).Value;
 
         var friendUserId = UserId.Create("0766A6EE-2465-4B88-A0AA-4522407FA06F").Value;
         
@@ -28,7 +28,7 @@ public class UserTests
             "45929873-9CEE-4CAA-BCA9-ECBB09314A89", 
             "firstname", 
             "lastname", 
-            new List<UserId>()).Value;
+            new List<Id>()).Value;
 
         var friendUserId = UserId.Create("0766A6EE-2465-4B88-A0AA-4522407FA06F").Value;
         
@@ -46,7 +46,7 @@ public class UserTests
             "invalid", 
             "firstname", 
             "lastname", 
-            new List<UserId>());
+            new List<Id>());
 
         user.IsFailure.Should().BeTrue();
     }
@@ -58,7 +58,7 @@ public class UserTests
             "45929873-9CEE-4CAA-BCA9-ECBB09314A89", 
             new string('x',35), 
             "lastname", 
-            new List<UserId>());
+            new List<Id>());
 
         user.IsFailure.Should().BeTrue();
     }
@@ -70,7 +70,7 @@ public class UserTests
             "45929873-9CEE-4CAA-BCA9-ECBB09314A89", 
             string.Empty, 
             "lastname", 
-            new List<UserId>());
+            new List<Id>());
 
         user.IsFailure.Should().BeTrue();
     }
@@ -83,7 +83,7 @@ public class UserTests
             "45929873-9CEE-4CAA-BCA9-ECBB09314A89", 
             "firstname", 
             "lastname", 
-            new List<UserId>());
+            new List<Id>());
 
         user.IsSuccess.Should().BeTrue();
         
@@ -98,7 +98,7 @@ public class UserTests
             "45929873-9CEE-4CAA-BCA9-ECBB09314A89", 
             "firstname", 
             "lastname", 
-            new List<UserId>());
+            new List<Id>());
 
         user.IsSuccess.Should().BeTrue();
 
@@ -116,13 +116,11 @@ public class UserTests
             "45929873-9CEE-4CAA-BCA9-ECBB09314A89", 
             "firstname", 
             "lastname", 
-            new List<UserId>() { friendUserId }).Value;
+            new List<Id> { friendUserId }).Value;
 
         user.DeleteFromFriends(friendUserId);
 
         user.Friends.Should().BeEmpty();
-        user.GetDomainEvents().Should()
-            .ContainSingle(x => x.GetType() == typeof(RemovedFriendDomainEvent));
     }
     
     [Fact]
@@ -134,7 +132,7 @@ public class UserTests
             "45929873-9CEE-4CAA-BCA9-ECBB09314A89", 
             "firstname", 
             "lastname", 
-            new List<UserId>() { friendUserId }).Value;
+            new List<Id> { friendUserId }).Value;
 
         user.Invoking(u => 
             u.DeleteFromFriends(UserId.Create("68E3290D-5BFE-4213-B882-4F0E760C508C").Value))

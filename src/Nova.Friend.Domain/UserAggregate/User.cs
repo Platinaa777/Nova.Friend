@@ -1,17 +1,17 @@
 using DomainDrivenDesign.Abstractions;
+using Nova.Friend.Domain.Errors;
 using Nova.Friend.Domain.Exceptions.User;
-using Nova.Friend.Domain.UserAggregate.Events;
 using Nova.Friend.Domain.UserAggregate.ValueObjects;
 
 namespace Nova.Friend.Domain.UserAggregate;
 
-public class User : AggregateRoot<UserId>
+public class User : AggregateRoot<Id>
 {
     private User(
-        UserId id,
+        Id id,
         FirstName firstName,
         LastName lastName,
-        HashSet<UserId> friends)
+        HashSet<Id> friends)
     {
         Id = id;
         FirstName = firstName;
@@ -21,22 +21,22 @@ public class User : AggregateRoot<UserId>
     
     public FirstName FirstName { get; private set; }
     public LastName LastName { get; private set; }
-    public HashSet<UserId> Friends { get; }
+    public HashSet<Id> Friends { get; }
 
-    public void AddFriend(UserId userId)
+    public void AddFriend(Id friendId)
     {
-        Friends.Add(userId);
+        Friends.Add(friendId);
     }
 
-    public void DeleteFromFriends(UserId friendId)
+    public void DeleteFromFriends(Id friendId)
     {
         if (!Friends.Contains(friendId))
             throw new DeletingFriendException(Id.Value, friendId.Value);
 
         Friends.Remove(friendId);
-        
-        RaiseDomainEvent(new RemovedFriendDomainEvent(Id, friendId));
-    } 
+    }
+
+    public bool HasFriend(Id friendId) => Friends.Contains(friendId);
 
     public void ChangeFirstName(string firstName)
     {
@@ -55,16 +55,16 @@ public class User : AggregateRoot<UserId>
 
         LastName = result.Value;
     }
-
+    
     public static Result<User> Create(
         string userId,
         string firstName,
         string lastName,
-        List<UserId> friends)
+        List<Id> friends)
     {
-        var userIdResult = UserId.Create(userId);
+        var userIdResult = Id.Create(userId);
         if (userIdResult.IsFailure)
-            return Result.Failure<User>(userIdResult.Error);
+            return Result.Failure<User>(UserError.InvalidUserId);
 
         var firstNameResult = FirstName.Create(firstName);
         if (firstNameResult.IsFailure)

@@ -2,6 +2,7 @@
 using Core.Arango;
 using Core.Arango.Migration;
 using Microsoft.Extensions.Configuration;
+using Nova.Friend.Application.Constants;
 using Nova.Friend.Migrations;
 
 Console.WriteLine(Directory.GetCurrentDirectory());
@@ -23,4 +24,4 @@ var migrationService = new ArangoMigrator(arangoContext)
 };
 
 migrationService.AddMigrations(typeof(Program).Assembly);
-await migrationService.UpgradeAsync(Database.DatabaseName);
+await migrationService.UpgradeAsync(DatabaseOptions.DatabaseName);

@@ -1,4 +1,5 @@
 using System.Text.Json.Serialization;
+using DomainDrivenDesign.Abstractions;
 using Newtonsoft.Json;
 using Nova.Friend.Domain.Exceptions.User;
 using Nova.Friend.Domain.UserAggregate;
@@ -33,10 +34,10 @@ public static class UserSnapshotSnapshotExtensions
     
     public static User Restore(this UserSnapshot snapshot)
     {
-        List<UserId> friends = new();
+        List<Id> friends = new();
         foreach (var friendId in snapshot.FriendIds)
         {
-            friends.Add(UserId.Create(friendId).Value);
+            friends.Add(Id.Create(friendId).Value);
         }
         
         var userSnapshotResult = User.Create(

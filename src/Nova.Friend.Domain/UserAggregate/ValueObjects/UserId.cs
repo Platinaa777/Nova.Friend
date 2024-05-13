@@ -3,13 +3,10 @@ using Nova.Friend.Domain.Errors;
 
 namespace Nova.Friend.Domain.UserAggregate.ValueObjects;
 
-public class UserId : ValueObject, IEquatable<UserId>
+public class UserId : Id, IEquatable<UserId>
 {
-    public string Value { get; }
-
-    private UserId(Guid userId)
+    private UserId(Guid userId) : base(userId)
     {
-        Value = userId.ToString();
     }
     
     protected override IEnumerable<object> GetEqualityComponents()
@@ -20,7 +17,7 @@ public class UserId : ValueObject, IEquatable<UserId>
     public bool Equals(UserId? other) =>
         base.Equals(other);
 
-    public static Result<UserId> Create(string userId)
+    public new static Result<UserId> Create(string userId)
     {
         if (!Guid.TryParse(userId, out var id))
         {

@@ -1,6 +1,7 @@
 using Core.Arango;
 using Core.Arango.Migration;
 using Core.Arango.Protocol;
+using Nova.Friend.Application.Constants;
 
 namespace Nova.Friend.Migrations.Migrations;
 
@@ -13,7 +14,7 @@ public class CreateUserCollection : IArangoMigration
     {        
         Console.WriteLine("Applied migration:" + Id);
 
-        await migrator.ApplyStructureAsync(Database.DatabaseName, new ArangoStructure()
+        await migrator.ApplyStructureAsync(DatabaseOptions.DatabaseName, new ArangoStructure()
         {
             Collections = new List<ArangoCollectionIndices>()
             {
@@ -21,7 +22,7 @@ public class CreateUserCollection : IArangoMigration
                 {
                     Collection = new ArangoCollection()
                     {
-                        Name = "UserSnapshot",
+                        Name = DatabaseOptions.UserCollection,
                         Type = ArangoCollectionType.Document
                     }
                 }
@@ -31,6 +32,6 @@ public class CreateUserCollection : IArangoMigration
 
     public async Task Down(IArangoMigrator migrator, ArangoHandle handle)
     {
-        await migrator.Context.Collection.DropAsync(Database.DatabaseName, "UserSnapshot");
+        await migrator.Context.Collection.DropAsync(DatabaseOptions.DatabaseName, DatabaseOptions.UserCollection);
     }
 }

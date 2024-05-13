@@ -5,8 +5,6 @@ public abstract class Entity<TKey> : IEquatable<Entity<TKey>>
 {
     public TKey Id { get; init; }
     protected Entity(TKey id) => Id = id;
-
-
     public override bool Equals(object? other)
     {
         if (other is null) return false;

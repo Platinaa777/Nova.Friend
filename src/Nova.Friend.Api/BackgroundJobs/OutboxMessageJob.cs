@@ -46,11 +46,26 @@ public class OutboxMessageJob : IJob
         Console.WriteLine($"Count outboxMessages: {outboxMessages.Count}");
         foreach (var message in outboxMessages)
         {
+            ArangoHandle? arangoTransaction = null;
             try
             {
-                var arangoTransaction = await _arango.Transaction.BeginAsync(DatabaseOptions.DatabaseName,
-                    new ArangoTransaction(), context.CancellationToken);
-                
+                arangoTransaction = await _arango.Transaction.BeginAsync(
+                    DatabaseOptions.DatabaseName,
+                    new ArangoTransaction()
+                    {
+                        Collections = new ArangoTransactionScope()
+                        {
+                            Write = new List<string>
+                            {
+                                DatabaseOptions.OutboxMessage, DatabaseOptions.RequestCollection, DatabaseOptions.UserCollection, DatabaseOptions.FriendEdge
+                            },
+                            Read = new List<string>
+                            {
+                                DatabaseOptions.OutboxMessage, DatabaseOptions.RequestCollection, DatabaseOptions.UserCollection, DatabaseOptions.FriendEdge
+                            }
+                        }
+                    }, context.CancellationToken);
+
                 IDomainEvent? domainEvent = JsonConvert.DeserializeObject<IDomainEvent>(message.Content,
                     new JsonSerializerSettings
                     {
@@ -77,7 +92,7 @@ public class OutboxMessageJob : IJob
                 message.HandledAtUtc = DateTime.UtcNow;
 
                 await _arango.Document.UpdateAsync(DatabaseOptions.DatabaseName, DatabaseOptions.OutboxMessage,
-                    domainEvent, cancellationToken: context.CancellationToken);
+                    message, cancellationToken: context.CancellationToken);
                 
                 _logger.LogInformation("Outbox message {@BackgroundJobId} was handled by {@Worker}",
                     message.Id,
@@ -90,6 +105,8 @@ public class OutboxMessageJob : IJob
                 _logger.LogError("Outbox message has failed {@Id} with error message {@ErrorMessage}",
                     message.Id,
                     e.Message);
+
+                await _arango.Transaction.AbortAsync(arangoTransaction, context.CancellationToken);
             }
         }
     }

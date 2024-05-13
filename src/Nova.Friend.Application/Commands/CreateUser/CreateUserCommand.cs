@@ -16,5 +16,5 @@ public class CreateUserCommand : IRequest<Result>
 public static class CreateUserCommandExtensions
 {
     public static Result<User> ToCreateUserResult(this CreateUserCommand command) =>
-        User.Create(command.UserId, command.UserName, command.LastName, new List<UserId>());
+        User.Create(command.UserId, command.UserName, command.LastName, new List<Id>());
 }

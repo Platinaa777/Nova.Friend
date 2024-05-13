@@ -4,11 +4,10 @@ using Nova.Friend.Infrastructure.Persistence.Abstractions;
 
 namespace Nova.Friend.Infrastructure.Persistence;
 
-public class ChangeTracker : IChangeTracker<ValueObject>
+public class ChangeTracker : IChangeTracker
 {
-    public ConcurrentBag<AggregateRoot<ValueObject>> Entities { get; } = new();
-    
-    public void Track(AggregateRoot<ValueObject> entity)
+    public ConcurrentBag<AggregateRoot<Id>> Entities { get; } = new();
+    public void Track(AggregateRoot<Id> entity)
     {
         Entities.Add(entity);
     }

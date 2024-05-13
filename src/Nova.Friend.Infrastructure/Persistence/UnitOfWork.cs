@@ -8,34 +8,36 @@ using Nova.Friend.Application.TransactionScope;
 using Nova.Friend.Infrastructure.OutboxPattern;
 using Nova.Friend.Infrastructure.Persistence.Abstractions;
 using ArangoTransactionScope = Core.Arango.Protocol.ArangoTransactionScope;
-using IUnitOfWork = Nova.Friend.Application.TransactionScope.IUnitOfWork;
 
 namespace Nova.Friend.Infrastructure.Persistence;
 
 public class UnitOfWork : IUnitOfWork
 {
-    private readonly IChangeTracker<ValueObject> _tracker;
+    private readonly IChangeTracker _tracker;
     private readonly IArangoContext _arango;
+    private readonly ITransactionScope _scope;
     private ArangoHandle? _transaction;
 
     public UnitOfWork(
-        IChangeTracker<ValueObject> tracker,
-        IArangoContext arango)
+        IChangeTracker tracker,
+        IArangoContext arango,
+        ITransactionScope scope)
     {
         _tracker = tracker;
         _arango = arango;
+        _scope = scope;
     }
 
-    public async ValueTask StartTransaction(ITransactionScope scope, CancellationToken token = default)
+    public async ValueTask StartTransaction(CancellationToken token = default)
     {
         if (_transaction is not null) return;
         
         var transaction = await _arango.Transaction.BeginAsync(DatabaseOptions.DatabaseName,
             new ArangoTransaction
-            { Collections = new ArangoTransactionScope { Read = scope.Read, Write = scope.Write } }, token);
+            { Collections = new ArangoTransactionScope { Read = _scope.Read, Write = _scope.Write } }, token);
         _transaction = transaction;
         
-        scope.TransactionId = transaction;
+        _scope.TransactionId = transaction;
     }
 
     public async Task SaveChangesAsync(CancellationToken token = default)
@@ -63,8 +65,11 @@ public class UnitOfWork : IUnitOfWork
                 };
             })).ToList();
 
-        await _arango.Document.CreateManyAsync(_transaction, DatabaseOptions.OutboxMessage,
-            domainEvents, cancellationToken: token);
+        if (domainEvents.Any())
+        {
+            await _arango.Document.CreateManyAsync(_transaction, DatabaseOptions.OutboxMessage,
+                domainEvents, cancellationToken: token);    
+        }
 
         await _arango.Transaction.CommitAsync(_transaction, token);
     }

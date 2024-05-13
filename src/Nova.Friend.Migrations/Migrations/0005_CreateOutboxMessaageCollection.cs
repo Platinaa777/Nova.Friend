@@ -1,6 +1,7 @@
 using Core.Arango;
 using Core.Arango.Migration;
 using Core.Arango.Protocol;
+using Nova.Friend.Application.Constants;
 
 namespace Nova.Friend.Migrations.Migrations;
 
@@ -12,7 +13,7 @@ public class CreateOutboxMessageCollection : IArangoMigration
     public async Task Up(IArangoMigrator migrator, ArangoHandle handle)
     {
         Console.WriteLine("Applied migration:" + Id);
-        await migrator.ApplyStructureAsync(Database.DatabaseName, new ArangoStructure()
+        await migrator.ApplyStructureAsync(DatabaseOptions.DatabaseName, new ArangoStructure()
         {
             Collections = new List<ArangoCollectionIndices>()
             {
@@ -20,7 +21,7 @@ public class CreateOutboxMessageCollection : IArangoMigration
                 {
                     Collection = new ArangoCollection()
                     {
-                        Name = "OutboxMessage",
+                        Name = DatabaseOptions.OutboxMessage,
                         Type = ArangoCollectionType.Document
                     }
                 }
@@ -30,6 +31,6 @@ public class CreateOutboxMessageCollection : IArangoMigration
 
     public async Task Down(IArangoMigrator migrator, ArangoHandle handle)
     {
-        await migrator.Context.Collection.DropAsync(Database.DatabaseName, "OutboxMessage");
+        await migrator.Context.Collection.DropAsync(DatabaseOptions.DatabaseName, DatabaseOptions.OutboxMessage);
     }
 }

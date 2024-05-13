@@ -16,7 +16,7 @@ using Nova.Friend.Infrastructure.Assembly;
 using Nova.Friend.Infrastructure.Persistence;
 using Nova.Friend.Infrastructure.Persistence.Abstractions;
 using Nova.Friend.Infrastructure.Repositories;
-using IUnitOfWork = Nova.Friend.Application.TransactionScope.IUnitOfWork;
+using Abstractions_IUnitOfWork = DomainDrivenDesign.Abstractions.IUnitOfWork;
 
 namespace Nova.Friend.DependencyInjection;
 
@@ -32,6 +32,7 @@ public static class ServiceCollectionRegister
         services
             .AddScoped<IFriendRequestRepository, FriendRequestRepository>()
             .AddScoped<IFriendSearchRepository, FriendRequestSearchRepository>()
+            .AddScoped<IFriendRepository, FriendRepository>()
             .AddScoped<IUserRepository, UserRepository>()
             .AddScoped<IIdGeneratorFactory<Guid>, GuidFactory>();
         
@@ -60,7 +61,7 @@ public static class ServiceCollectionRegister
 
         services
             .AddScoped<IUnitOfWork, UnitOfWork>()
-            .AddScoped<IChangeTracker<ValueObject>, ChangeTracker>()
+            .AddScoped<IChangeTracker, ChangeTracker>()
             .AddScoped<ITransactionScope, ArangoTransactionScope>();
         
         return services;

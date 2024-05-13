@@ -1,3 +1,4 @@
+using DomainDrivenDesign.Abstractions;
 using Nova.Friend.Domain.Exceptions.FriendRequest;
 using Nova.Friend.Domain.FriendRequestAggregate;
 using Nova.Friend.Domain.FriendRequestAggregate.Enumerations;

@@ -1,8 +1,10 @@
+using System.Collections.Concurrent;
+
 namespace DomainDrivenDesign.Abstractions;
 
-public class AggregateRoot<T> : Entity<T> where T : IEquatable<T>
+public class AggregateRoot<T> : Entity<T> where T : Id, IEquatable<T>
 {
-    private readonly List<IDomainEvent> _domainEvents = new();
+    private ConcurrentBag<IDomainEvent> _domainEvents = new();
     
     protected AggregateRoot(T id) : base(id)
     {
@@ -19,6 +21,11 @@ public class AggregateRoot<T> : Entity<T> where T : IEquatable<T>
     public void ClearDomainEvents()
     {
         _domainEvents.Clear();
+    }
+
+    public void ChangeDomainEvents(ConcurrentBag<IDomainEvent> events)
+    {
+        _domainEvents = events;
     }
     
     protected AggregateRoot() {}
