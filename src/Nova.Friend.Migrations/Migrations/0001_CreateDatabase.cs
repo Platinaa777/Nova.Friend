@@ -1,6 +1,5 @@
 using Core.Arango;
 using Core.Arango.Migration;
-using Nova.Friend.Application.Constants;
 
 namespace Nova.Friend.Migrations.Migrations;
 

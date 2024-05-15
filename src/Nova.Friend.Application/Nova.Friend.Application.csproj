@@ -13,6 +13,7 @@
     <ItemGroup>
       <PackageReference Include="FluentValidation.AspNetCore" Version="11.3.0" />
       <PackageReference Include="Microsoft.Extensions.Logging.Abstractions" Version="7.0.1" />
+      <PackageReference Include="System.Diagnostics.DiagnosticSource" Version="7.0.2" />
     </ItemGroup>
 
     <ItemGroup>

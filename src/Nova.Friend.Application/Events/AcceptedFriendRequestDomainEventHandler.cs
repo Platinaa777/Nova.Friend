@@ -32,7 +32,7 @@ public class AcceptedFriendRequestDomainEventHandler
     public async Task Handle(AcceptedFriendRequestDomainEvent notification, CancellationToken cancellationToken)
     {
         await _unitOfWork.StartTransaction(cancellationToken);
-        var (_, senderId, receiverId) = CreateIds(notification);
+        var (senderId, receiverId) = CreateIds(notification);
 
         // TODO: Think about handling it        
         var sender = await _userRepository.FindUserById(senderId, cancellationToken); 
@@ -51,6 +51,6 @@ public class AcceptedFriendRequestDomainEventHandler
         await _unitOfWork.SaveChangesAsync(cancellationToken);
     }
     
-    private (Id requestId, Id senderId, Id receiverId) CreateIds(AcceptedFriendRequestDomainEvent notification) =>
-        (Id.Create(notification.RequestId).Value, Id.Create(notification.SenderId).Value, Id.Create(notification.ReceiverId).Value);
+    private (Id senderId, Id receiverId) CreateIds(AcceptedFriendRequestDomainEvent notification) =>
+        (Id.Create(notification.SenderId).Value, Id.Create(notification.ReceiverId).Value);
 }

@@ -5,7 +5,6 @@ using Nova.Friend.Application.Commands.AcceptFriendRequest;
 using Nova.Friend.Application.Commands.RejectFriendRequest;
 using Nova.Friend.Application.Commands.SendFriendRequest;
 using Nova.Friend.Application.Queries.GetFriendRequests;
-using Nova.Friend.Application.Queries.GetFriends;
 using Nova.Friend.HttpModels.Requests;
 
 namespace Nova.Friend.Api.Controllers;

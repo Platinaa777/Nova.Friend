@@ -8,10 +8,6 @@
     </PropertyGroup>
 
     <ItemGroup>
-      <ProjectReference Include="..\Nova.Friend.Api\Nova.Friend.Api.csproj" />
-    </ItemGroup>
-
-    <ItemGroup>
       <PackageReference Include="Core.Arango.Migration" Version="3.11.8" />
     </ItemGroup>
 

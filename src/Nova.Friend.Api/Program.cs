@@ -5,11 +5,14 @@ using SwaggerConfiguration;
 var builder = WebApplication.CreateBuilder(args);
 
 var configuration = builder.Configuration;
+var environment = builder.Environment;
 
 builder.Services
     .AddApplicationServices()
     .AddDataLayer(configuration)
-    .AddBackgroundJobs();
+    .AddBackgroundJobs()
+    .AddLogging(configuration, environment)
+    .AddMetrics();
 
 builder.Services
     .AddSwagger();
@@ -17,5 +20,10 @@ builder.Services
 var app = builder.Build();
 
 app.MapControllers();
+app.MapPrometheusScrapingEndpoint();
 
 app.Run();
+
+public partial class Program
+{
+}

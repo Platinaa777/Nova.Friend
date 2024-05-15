@@ -2,7 +2,6 @@ using AutoMapper;
 using MediatR;
 using Microsoft.AspNetCore.Mvc;
 using Nova.Friend.Application.Commands.CreateUser;
-using Nova.Friend.Application.Queries.GetFriends;
 using Nova.Friend.HttpModels.Requests;
 
 namespace Nova.Friend.Api.Controllers;

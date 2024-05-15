@@ -3,6 +3,7 @@ using Core.Arango;
 using DomainDrivenDesign.Abstractions;
 using FluentValidation;
 using MediatR;
+using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Nova.Friend.Application.Assembly;
@@ -16,7 +17,6 @@ using Nova.Friend.Infrastructure.Assembly;
 using Nova.Friend.Infrastructure.Persistence;
 using Nova.Friend.Infrastructure.Persistence.Abstractions;
 using Nova.Friend.Infrastructure.Repositories;
-using Abstractions_IUnitOfWork = DomainDrivenDesign.Abstractions.IUnitOfWork;
 
 namespace Nova.Friend.DependencyInjection;
 
@@ -52,7 +52,7 @@ public static class ServiceCollectionRegister
     
     public static IServiceCollection AddDataLayer(this IServiceCollection services, ConfigurationManager configuration)
     {
-        services.AddArango((sp, cfg) =>
+        services.AddArango((_, cfg) =>
         {
             cfg.ConnectionString = configuration.GetConnectionString("Arango");
         });

@@ -9,7 +9,7 @@ public class Id : ValueObject, IEquatable<Id>
     [JsonConstructor]
     protected Id(Guid id)
     {
-        Value = id.ToString();
+        Value = id.ToString().ToUpper();
     }
     
     protected override IEnumerable<object> GetEqualityComponents()
