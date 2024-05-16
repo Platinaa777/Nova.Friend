@@ -10,6 +10,7 @@ using Nova.Friend.Application.Assembly;
 using Nova.Friend.Application.Behavior;
 using Nova.Friend.Application.Commands.CreateUser;
 using Nova.Friend.Application.Factories;
+using Nova.Friend.Application.Monitoring;
 using Nova.Friend.Application.TransactionScope;
 using Nova.Friend.Domain.FriendRequestAggregate.Repositories;
 using Nova.Friend.Domain.UserAggregate.Repositories;
@@ -38,8 +39,12 @@ public static class ServiceCollectionRegister
         
         services
             .AddTransient(typeof(IPipelineBehavior<,>), typeof(LoggingPipelineBehavior<,>))
-            .AddTransient(typeof(IPipelineBehavior<,>), typeof(ValidationPipelineBehavior<,>));
+            .AddTransient(typeof(IPipelineBehavior<,>), typeof(ValidationPipelineBehavior<,>))
+            .AddTransient(typeof(IPipelineBehavior<,>), typeof(MonitoringPipelineBehavior<,>));
 
+        services
+            .AddSingleton<ApplicationMetrics>();
+        
         services.AddValidatorsFromAssembly(
             ApplicationAssembly.Assembly,
             includeInternalTypes: true);

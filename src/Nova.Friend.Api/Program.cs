@@ -12,7 +12,7 @@ builder.Services
     .AddDataLayer(configuration)
     .AddBackgroundJobs()
     .AddLogging(configuration, environment)
-    .AddMetrics();
+    .AddMetrics(configuration);
 
 builder.Services
     .AddSwagger();

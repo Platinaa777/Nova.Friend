@@ -29,7 +29,7 @@ public class LoggingPipelineBehavior<TRequest, TResponse>
 
         if (result.IsFailure)
         {
-            _logger.LogInformation("Error request {@RequestName}, {@Error}, {@DateTimeUtc}", 
+            _logger.LogWarning("Error request {@RequestName}, {@Error}, {@DateTimeUtc}", 
                 typeof(TRequest),
                 result.Error,
                 DateTime.UtcNow);
